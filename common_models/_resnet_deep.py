@@ -79,7 +79,7 @@ def bottleneck_blocks(filters, strides, n_blocks):
 
 class DeepResNet(tf.keras.Model):
     """ResNet Base Model.
-        Can be used to build both ResNet-18 and ResNet-34
+        Can be used to build ResNet50, ResNet101 and ResNet152
     """
     def __init__(self, n_res_blocks, n_classes):
         super(DeepResNet, self).__init__()

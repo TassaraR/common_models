@@ -73,7 +73,7 @@ def residual_blocks(filters, strides, n_blocks):
 
 class ResNet(tf.keras.Model):
     """ResNet Base Model.
-        Can be used to build both ResNet-18 and ResNet-34
+        Can be used to build both ResNet18 and ResNet34
     """
     def __init__(self, n_res_blocks, n_classes):
         super(ResNet, self).__init__()
