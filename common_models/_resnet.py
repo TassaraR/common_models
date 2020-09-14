@@ -1,7 +1,16 @@
 # -*- coding: utf-8 -*-
 import tensorflow as tf
 
+__all__ = ['ResNet18', 'ResNet34']
+
+# Implementation of ResNet
+# https://arxiv.org/pdf/1512.03385.pdf
+
 class IdentityBlock(tf.keras.Model):
+    """
+    Creates normal single block for ResNets 18 and 34
+    """
+
     def __init__(self, filters, strides):
         super(IdentityBlock, self).__init__()
         
@@ -46,8 +55,13 @@ class IdentityBlock(tf.keras.Model):
 
         x = tf.keras.layers.add([x_residual, x])    
         return tf.nn.relu(x)
-        
+
+
 def residual_blocks(filters, strides, n_blocks):
+    """
+    Creates a sequence of residual blocks with 
+    the same properties
+    """
     res_block = tf.keras.Sequential()
     res_block.add(IdentityBlock(filters = filters,
                                 strides = strides))
@@ -57,10 +71,10 @@ def residual_blocks(filters, strides, n_blocks):
                                     strides = 1))
     return res_block
 
-# Implementation of ResNet
-# https://arxiv.org/pdf/1512.03385.pdf
-
 class ResNet(tf.keras.Model):
+    """ResNet Base Model.
+        Can be used to build both ResNet-18 and ResNet-34
+    """
     def __init__(self, n_res_blocks, n_classes):
         super(ResNet, self).__init__()
         
@@ -111,5 +125,9 @@ class ResNet(tf.keras.Model):
             
         return x
 
+# 18 and 34 Layer ResNet have the same architecture 
+def ResNet18(n_classes):
+    return ResNet(n_res_blocks = [2, 2, 2, 2], n_classes = n_classes)
+
 def ResNet34(n_classes):
-return ResNet(n_res_blocks = [3,4,6,3], n_classes = n_classes)
+    return ResNet(n_res_blocks = [3, 4, 6, 3], n_classes = n_classes)
